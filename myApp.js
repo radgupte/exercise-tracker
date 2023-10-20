@@ -19,3 +19,18 @@ connection.on('error', console.error.bind(console, 'Connection error: '));
 connection.once('open', () => {
   console.log('Successfully established connection with MongoDB database');
 });
+
+// Creating a schema for User
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+  },
+  _id: {
+    type: String,
+    required: true,
+  },
+});
+User = mongoose.model('User', userSchema);
+
+exports.UserModel = User;
