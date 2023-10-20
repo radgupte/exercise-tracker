@@ -13,6 +13,17 @@ app.get('/', (req, res) => {
 
 app.use(express.json());
 
+// Route to create a new user
+const createUser = require('./myApp.js').createUser;
+app.post('/api/users', async (req, res) => {
+  const username = req.body.username;
+  let new_user = createUser(username);
+
+  new_user.then(function (new_user) {
+    res.send(new_user);
+  });
+});
+
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
 });
