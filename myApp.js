@@ -60,5 +60,16 @@ const createUser = async (uname) => {
   }
 };
 
+// Function to return all users
+const getAllUsers = async () => {
+  try {
+    const all_users = await User.find();
+    return all_users;
+  } catch (err) {
+    return { error: 'Bad Request' };
+  }
+};
+
 exports.UserModel = User;
 exports.createUser = createUser;
+exports.getAllUsers = getAllUsers;

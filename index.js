@@ -15,12 +15,22 @@ app.use(express.json());
 
 // Route to create a new user
 const createUser = require('./myApp.js').createUser;
+const getAllUsers = require('./myApp.js').getAllUsers;
 app.post('/api/users', async (req, res) => {
   const username = req.body.username;
   let new_user = createUser(username);
 
   new_user.then(function (new_user) {
     res.send(new_user);
+  });
+});
+
+// Route to get all users
+app.get('/api/users', async (req, res) => {
+  const all_users = getAllUsers();
+  all_users.then(function (all_users) {
+    // console.log(allUsers);
+    res.send(all_users);
   });
 });
 
