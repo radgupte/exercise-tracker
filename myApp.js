@@ -35,6 +35,26 @@ const userSchema = new mongoose.Schema({
 });
 User = mongoose.model('User', userSchema);
 
+// Creating a schema for Exercise
+const exerciseSchema = new mongoose.Schema({
+  user_id: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+  date: {
+    type: String,
+  },
+});
+Exercise = mongoose.model('Exercise', exerciseSchema);
+
 // Function to create a new user
 const createUser = async (uname) => {
   const id = shortid.generate(uname);
@@ -70,6 +90,40 @@ const getAllUsers = async () => {
   }
 };
 
+// Function to add exercise for a user
+const addExercise = async (id, description, duration, date) => {
+  try {
+    let user = await User.findOne({ _id: id });
+    if (!user) {
+      return { error: 'User does not exist' };
+    } else {
+      console.log(date);
+      const user_id = user._id;
+
+      const new_exercise = new Exercise({
+        user_id,
+        description,
+        duration,
+        date,
+      });
+
+      console.log(new_exercise);
+      await new_exercise.save();
+
+      return {
+        username: user.username,
+        description: new_exercise.description,
+        duration: new_exercise.duration,
+        date: new_exercise.date,
+        _id: new_exercise._id,
+      };
+    }
+  } catch (err) {
+    return { error: 'Bad Request' };
+  }
+};
+
 exports.UserModel = User;
 exports.createUser = createUser;
 exports.getAllUsers = getAllUsers;
+exports.addExercise = addExercise;
