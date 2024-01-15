@@ -94,6 +94,7 @@ const getAllUsers = async () => {
 const addExercise = async (id, description, duration, date) => {
   try {
     let user = await User.findOne({ _id: id });
+
     if (!user) {
       return { error: 'User does not exist' };
     } else {
@@ -124,6 +125,7 @@ const addExercise = async (id, description, duration, date) => {
 };
 
 exports.UserModel = User;
+exports.ExerciseModel = Exercise;
 exports.createUser = createUser;
 exports.getAllUsers = getAllUsers;
 exports.addExercise = addExercise;
